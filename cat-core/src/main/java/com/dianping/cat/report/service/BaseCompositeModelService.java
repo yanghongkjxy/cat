@@ -7,11 +7,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
-import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
 import org.unidal.helper.Splitters;
 import org.unidal.helper.Threads;
 import org.unidal.lookup.annotation.Inject;
+import org.unidal.lookup.extension.Initializable;
+import org.unidal.lookup.extension.InitializationException;
 
 import com.dianping.cat.Cat;
 import com.dianping.cat.config.server.ServerConfigManager;
@@ -21,7 +21,7 @@ import com.dianping.cat.message.Transaction;
 
 public abstract class BaseCompositeModelService<T> extends ModelServiceWithCalSupport implements ModelService<T>,
       Initializable {
-	private static ExecutorService s_threadPool = Threads.forPool().getFixedThreadPool("Cat-ModelService", 100);
+	private static ExecutorService s_threadPool = Threads.forPool().getFixedThreadPool("Cat-ModelService", 30);
 
 	// introduce another list is due to a bug inside Plexus ComponentList
 	private List<ModelService<T>> m_allServices = new ArrayList<ModelService<T>>();

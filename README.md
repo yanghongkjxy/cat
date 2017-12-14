@@ -1,5 +1,12 @@
-CAT [![Build Status](https://travis-ci.org/dianping/cat.png?branch=master)](https://travis-ci.org/dianping/cat)
+CAT
+ [![Build Status](https://travis-ci.org/dianping/cat.png?branch=master)](https://travis-ci.org/dianping/cat)
+ [![GitHub stars](https://img.shields.io/github/stars/dianping/cat.svg?style=social&label=Star&)](https://github.com/dianping/cat/stargazers)
+ [![GitHub forks](https://img.shields.io/github/forks/dianping/cat.svg?style=social&label=Fork&)](https://github.com/dianping/cat/fork)
+
 ===
+
+[![Join the chat at https://gitter.im/dianping/cat](https://badges.gitter.im/dianping/cat.svg)](https://gitter.im/dianping/cat?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ##### CAT基于Java开发的实时应用监控平台，包括实时应用监控，业务监控。[2013-01-06] 
 
 ##### CAT支持的监控消息类型包括：
@@ -30,29 +37,76 @@ CAT监控系统将每次URL、Service的请求内部执行情况都封装为一�
 
 Requirements
 ---------------------
-* Java 6
-* Maven 3
-* MySQL
+* Linux 2.6以及之上（2.6内核才可以支持epoll），Mac以及Windows环境可以作为开发环境
+* Java  6，7，8
+* Maven 3.2.3+
+* MySQL 5.6
+
+
+我司的环境配置如下
+
+```
+Distributor ID:	CentOS
+Description:	CentOS release 6.5 (Final)
+Release:	6.5
+Codename:	Final
+
+Server version: Apache Tomcat/8.0.30
+Server built:   Dec 1 2015 22:30:46 UTC
+Server number:  8.0.30.0
+OS Name:        Linux
+OS Version:     2.6.32-431.el6.x86_64
+Architecture:   amd64
+JVM Version:    1.8.0_111-b14
+JVM Vendor:     Oracle Corporation
+
+Maven 3.3.3
+
+Mysql 5.6
+
+```
+
 
 Quick Started
 ---------------------
-#####1、在CAT目录下，用maven构建项目
+##### 1、在CAT目录下，用maven构建项目
         mvn clean install -DskipTests
-#####2、配置CAT的环境
-		mvn cat:install
+        
+        如果下载有问题，可以尝试翻墙后下载，可以 git clone git@github.com:dianping/cat.git mvn-repo 下载到本地，这个分支是cat编译需要的依赖的一些jar ，将这些jar放入本地的maven仓库文件夹中。
+        
+##### 2、配置CAT的环境
+	mvn cat:install
 Note：
 * Linux\Mac  需要对/data/appdatas/cat和/data/applogs/cat有读写权限
-* Windows    则是对系统运行盘下的/data/appdatas/cat和/data/applogs/cat有读写权限
+* Windows    则是对系统运行盘下的/data/appdatas/cat和/data/applogs/cat有读写权限,如果cat服务运行在e盘的tomcat中，则需要对e:/data/appdatas/cat和e:/data/applogs/cat有读写权限
+* 
+        此步骤是配置一些cat启动需要的基本数据库配置
 
-#####3、(Optional)如果安装了hadoop集群，需到/data/appdatas/cat/server.xml中配置对应hadoop信息。将localmode设置为false，默认情况下，CAT在开发模式（localmode=true）下工作。
+##### 3、(Optional)如果安装了hadoop集群，需到/data/appdatas/cat/server.xml中配置对应hadoop信息。将localmode设置为false，默认情况下，CAT在开发模式（localmode=true）下工作。
 
-#####4、运行CAT
-		cd cat-home;mvn jetty:run
-然后打开浏览器，输入http://localhost:2281/cat/。
+##### 4、启动的cat单机版本基本步骤
+* 检查下/data/appdatas/cat/ 下面需要的几个配置文件，配置文件在源码script 。
+* 在cat目录下执行 mvn install -DskipTests 。
+* cat-home打包出来的war包，重新命名为cat.war, 并放入tomcat的webapps 。
+* 启动tomcat
+* 访问 http://localhost:8080/cat/r
+* 具体详细的还可以参考   http://unidal.org/cat/r/home?op=view&docName=deploy   
 
-或者在cat目录下输入
-		mvn eclipse:clean eclipse:eclipse
-然后将项目导入到eclipse中，运行cat-home项目里得‘com.dianping.cat.TestServer’来启动CAT。
+##### 5、遇到jar不能下载的情况
+* cat jar在cat的mvn-repo分支下，可以download到本地，再copy至本地的仓库目录
+* git clone https://github.com/dianping/cat.git
+* cd cat
+* git checkout mvn-repo
+* cp -R * ~/.m2/repository
+
+##### 6、导入eclipse发现找不到类
+* 请先执行mvn eclipse:eclipse 会自动生成相关的类文件
+* 作为普通项目导入eclipse，不要用作为maven项目导入eclipse
+
+
+##### 7、可以参考script目录下详细资料
+
+
 
 Copyright and license
 ---------------------
@@ -63,6 +117,10 @@ Licensed under the Apache License, Version 2.0 (the "License"); you may not use 
 <http://www.apache.org/licenses/LICENSE-2.0>
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+### 支持的话可以扫一扫，支持CAT官网 http://unidal.org/ 的建设。
+
+<img src="https://raw.github.com/dianping/cat/master/cat-home/src/main/webapp/img/weixin.jpg" width="50%"/>
 
 CAT接入公司
 ===
